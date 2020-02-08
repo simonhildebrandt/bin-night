@@ -1,0 +1,35 @@
+{
+  "name": "bin-night-ui",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "serve": "live-server --port=9000 --host=localhost public/",
+    "build": "browserify src/index.js -o public/index.js -t [ babelify ]",
+    "watch": "watchify src/index.js -o public/index.js -t [ babelify ]"
+  },
+  "dependencies": {
+    "@babel/core": "^7.0.0-beta.49",
+    "@babel/node": "^7.0.0-beta.49",
+    "@babel/polyfill": "^7.4.3",
+    "@babel/preset-env": "^7.0.0-beta.49",
+    "@material-ui/core": "^4.9.1",
+    "babelify": "^9.0.0",
+    "browserify": "^16.2.2",
+    "firebase": "^7.8.1",
+    "live-server": "^1.2.0",
+    "npx": "^10.2.0",
+    "react-firebaseui": "^4.1.0",
+    "react-native": "^0.61.5",
+    "watchify": "^3.11.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/plugin-transform-regenerator": "^7.4.3",
+    "fsevents": "1.2.9",
+    "netlify-cli": "^2.32.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  }
+}
