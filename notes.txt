@@ -1,0 +1,11 @@
+# Start firebase cloud functions emulator
+yarn firebase emulators:start --only functions
+
+# region
+us-central1
+
+# project Id
+bin-night-767d0
+
+# Queue ID
+notifierQueue

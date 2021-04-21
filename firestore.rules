@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /councils/{document=**} {
+      allow read: if true;
+      allow write: if request.auth.uid == 'QUF2ZXAnJ2SXjFUpOvXOZLgG3MO2'
+    }
+    match /reminders/{reminderId} {
+      allow read, delete: if resource.data.userId == request.auth.uid
+      allow create: if true;
+    }
+    match /users/{userId} {
+      allow read, update: if userId == request.auth.uid
+      allow create: if true;
+    }
+  }
+}

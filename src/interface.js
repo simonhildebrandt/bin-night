@@ -1,46 +1,67 @@
-import React, { useState, useContext } from 'react';
+import React, { useRef, useState, useContext, searchFieldRef } from 'react';
 
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
-import { auth, logout, db, FirebaseContext } from './firebase';
+import CouncilList from './council_list';
+import Consumer from './consumer';
 
+
+import { auth, logout, useAuthChanged, db, useCouncilData, FirebaseContext } from './firebase';
+import { navigate, NavigationContext } from './navigation';
 
 
 const uiConfig = {
-  signInSuccessUrl: location.href,
+  //signInSuccessUrl: location.href,
   signInFlow: 'popup',
   signInOptions: [
     auth.GoogleAuthProvider.PROVIDER_ID
-  ]
+  ],
+  callbacks: {
+    // Avoid redirects after sign-in.
+    signInSuccessWithAuthResult: () => false
+  }
 };
 
 const Interface = () => {
   const [user, loggedIn] = useContext(FirebaseContext);
   const [showLogin, setShowLogin] = useState(false);
 
+  const navHash = useContext(NavigationContext);
+  const { editing } = navHash;
+
+  const uiRef = useRef();
+  const handleUICallback = ui => uiRef.current = ui;
+
+  useAuthChanged(newUser => {
+    setShowLogin(false);
+  });
+
   if (user === false) {
     return <CircularProgress />
   }
 
+  const handleLogout = () => {
+    logout();
+  };
+
   return <div>
-    { loggedIn && <Button onClick={logout}>Logout</Button> }
+    { loggedIn && <Button onClick={handleLogout}>Logout</Button> }
     { !loggedIn && <Button onClick={() => setShowLogin(true)}>Login</Button> }
+
+    <Button onClick={() => navigate('/edit')}>Edit</Button>
+
     { showLogin && <div>
-        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth()} />
+        <StyledFirebaseAuth uiCallback={handleUICallback} uiConfig={uiConfig} firebaseAuth={auth()} />
       </div>
     }
 
-    <h1>Bin Night</h1>
-    <p></p>
-    <h2>Reminders</h2>
-    <ul>
-      <li>Monday (19 hours from now)</li>
-    </ul>
-    <h2>Create a reminder</h2>
-    <input placeholder="council name" />
+    <Button onClick={() => navigate('/')}>Home</Button>
+
+    { editing ? <CouncilList /> : <Consumer /> }
   </div>
 };
 
