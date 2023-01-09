@@ -30,7 +30,7 @@
     "javascript-time-ago": "^2.0.7",
     "juration": "^0.1.1",
     "live-server": "^1.2.0",
-    "luxon": "^1.22.0",
+    "luxon": "^2.5.2",
     "navigo": "^7.1.2",
     "npx": "^10.2.0",
     "react-firebaseui": "^4.1.0",
